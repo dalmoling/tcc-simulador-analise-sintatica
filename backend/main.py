@@ -16,7 +16,7 @@ origins = [
     "localhost:3000",
     "http://localhost:5173",
     "localhost:5173",
-    "https://sasc.netlify.app",
+    "trabalho2compiladores.netlify.app",
 ]
 
 
