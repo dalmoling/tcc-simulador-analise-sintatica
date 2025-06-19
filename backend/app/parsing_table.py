@@ -4,25 +4,31 @@ import pandas as pd
 
 # Obtem a tabela de analise do site: https://smlweb.cpsc.ucalgary.ca/
 def get_parsing_table(grammar, analysis_type):
-    if analysis_type == "ll1":
-        aux_type = "ll1-table"
-    elif analysis_type == "slr1":
-        aux_type = "lr0"
-    else:
-        aux_type = analysis_type
+    try:
+        if analysis_type == "ll1":
+            aux_type = "ll1-table"
+        elif analysis_type == "slr1":
+            aux_type = "lr0"
+        else:
+            aux_type = analysis_type
 
-    url = f"https://smlweb.cpsc.ucalgary.ca/{aux_type}.php?grammar={grammar}"
-    url = url.replace(" ", "%20")
-
-    parsing_table = pd.read_html(url)
-    if analysis_type == "lr0" or analysis_type == "lr1":
-        return parsing_table[2]
-    elif analysis_type == "ll1":
-        return parsing_table[1]
-    elif analysis_type == "slr1" or analysis_type == "lalr1":
-        return parsing_table[3]
-    else:
-        return {"Erro": "Houve um erro!"}
+        url = f"https://smlweb.cpsc.ucalgary.ca/{aux_type}.php?grammar={grammar}"
+        url = url.replace(" ", "%20")
+        
+        print(f"Tentando acessar URL: {url}")
+        
+        parsing_table = pd.read_html(url)
+        if analysis_type == "lr0" or analysis_type == "lr1":
+            return parsing_table[2]
+        elif analysis_type == "ll1":
+            return parsing_table[1]
+        elif analysis_type == "slr1" or analysis_type == "lalr1":
+            return parsing_table[3]
+        else:
+            return {"Erro": "Houve um erro!"}
+    except Exception as e:
+        print(f"Erro ao obter tabela de análise: {str(e)}")
+        raise ValueError(f"Erro ao processar a gramática: {str(e)}")
 
 
 # Converter tabela em dicionario

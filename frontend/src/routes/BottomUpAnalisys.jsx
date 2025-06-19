@@ -93,11 +93,21 @@ const BottomUpAnalisys = () => {
           navigate("/error", {
             state: {
               message: response.data["errorMessage"],
+              errorType: response.data["errorType"],
+              errorDetails: response.data["errorDetails"] || ""
             },
           });
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        navigate("/error", {
+          state: {
+            message: "Erro ao conectar com o servidor: " + error.message,
+            errorType: "connection_error",
+            errorDetails: "Verifique se o servidor está em execução e se você está conectado à internet."
+          },
+        });
+      });
   }, []);
 
   return (
